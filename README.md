@@ -58,12 +58,35 @@ Output → original playlist, sorted playlist, and merge sort steps
 
 ## Testing
 
-- Tested normal playlist input
-- Tested empty input
-- Tested one song
-- Tested duplicate values
-- Tested invalid format
-- Tested invalid numeric input
+### Test 1: Normal input
+- Input: multiple songs with different energy values  
+- Expected: songs sorted correctly by chosen key  
+- Result: worked as expected  
+
+### Test 2: Empty input
+- Input: no songs entered  
+- Expected: error message or empty output  
+- Result: displayed "No songs entered"  
+
+### Test 3: One song
+- Input: single song  
+- Expected: same song returned  
+- Result: worked as expected  
+
+### Test 4: Duplicate values
+- Input: songs with same energy  
+- Expected: sorted correctly, duplicates handled  
+- Result: worked as expected  
+
+### Test 5: Invalid format
+- Input: missing values in a line  
+- Expected: error message  
+- Result: error message displayed  
+
+### Test 6: Invalid numeric input
+- Input: energy as text instead of number  
+- Expected: error message  
+- Result: error message displayed  
 
 ## Author & AI Acknowledgment
 
