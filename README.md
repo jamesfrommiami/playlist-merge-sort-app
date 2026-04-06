@@ -6,7 +6,7 @@ This app solves the Playlist Vibe Builder problem by sorting songs based on ener
 
 ## Chosen Algorithm
 
-I chose Merge Sort because it is efficient, reliable, and easy to visualize step by step. It works well for sorting a list of songs because the playlist can be split into smaller parts, sorted, and then merged back together.
+I chose Merge Sort because it is efficient and easy to visualize each step. It works well for sorting a list of songs because the playlist can be split into smaller parts, sorted, and then merged back together.
 
 ## Demo
 
