@@ -42,7 +42,7 @@ Output → original playlist, sorted playlist, and merge sort steps
 
 ### Flowchart
 
-(Add your flowchart image here)
+![Flowchart](images/flowchart.png)
 
 ## Steps to Run
 
