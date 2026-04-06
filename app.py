@@ -49,21 +49,12 @@ def parse_playlist(text):
 # ─────────────────────────────────────────────
 
 def merge_sort_record(songs, key):
-    """
-    Run merge sort and return (sorted_list, steps).
 
-    Each step is a dict:
-      arr            – snapshot of the full array at that moment
-      left_range     – (lo, hi) indices of left sub-array (or None)
-      right_range    – (lo, hi) indices of right sub-array (or None)
-      comparing_ids  – set of _id values currently being compared (or None)
-      merged_range   – (lo, hi) of a freshly merged region (or None)
-      label          – human-readable description
-    """
     arr = [dict(s) for s in songs]
     steps = []
 
     def snap(arr_state, lr, rr, comparing_ids, merged_range, label):
+        # Save one step so it can be displayed in the UI
         steps.append({
             "arr": [dict(s) for s in arr_state],
             "left_range": lr,
@@ -74,6 +65,7 @@ def merge_sort_record(songs, key):
         })
 
     def _merge(arr, lo, mid, hi):
+        # Merge two sorted halves into one sorted section
         L = [dict(s) for s in arr[lo: mid + 1]]
         R = [dict(s) for s in arr[mid + 1: hi + 1]]
 
@@ -82,10 +74,13 @@ def merge_sort_record(songs, key):
 
         i = j = 0
         k = lo
+
+        # Compare elements from both halves and place the smaller one
         while i < len(L) and j < len(R):
             snap(arr, (lo, mid), (mid + 1, hi),
                  {L[i]["_id"], R[j]["_id"]}, None,
                  f"🔍  Compare  \"{L[i]['title']}\" ({L[i][key]})  vs  \"{R[j]['title']}\" ({R[j][key]})")
+            # <= keeps the sort stable when values are equal
             if L[i][key] <= R[j][key]:
                 arr[k] = L[i]
                 i += 1
@@ -93,6 +88,8 @@ def merge_sort_record(songs, key):
                 arr[k] = R[j]
                 j += 1
             k += 1
+
+        # Copy remaining elements
         while i < len(L):
             arr[k] = L[i]
             i += 1
@@ -106,9 +103,12 @@ def merge_sort_record(songs, key):
              f"✅  Merged!  Positions [{lo}‥{hi}] are now sorted  ·  {key} ↑")
 
     def _sort(arr, lo, hi):
+        # Base case: one element is already sorted
         if lo >= hi:
             return
         mid = (lo + hi) // 2
+
+        # Split the list into two halves
         snap(arr, (lo, mid), (mid + 1, hi), None, None,
              f"✂️  Split  [{lo}‥{hi}]  →  [{lo}‥{mid}]  &  [{mid+1}‥{hi}]")
         _sort(arr, lo, mid)
@@ -131,11 +131,11 @@ _PALETTE = {
     "bg":        "#080e1a",
     "panel":     "#0d1625",
     "border":    "#1a3a5c",
-    "unsorted":  "#263354",
-    "left":      "#1e6fd9",
-    "right":     "#9b4dca",
-    "comparing": "#f05a28",
-    "merged":    "#27ae60",
+    "unsorted":  "#263354",   # bars not yet touched by the algorithm
+    "left":      "#1e6fd9",   # left sub-array
+    "right":     "#9b4dca",   # right sub-array
+    "comparing": "#f05a28",   # two songs currently being compared
+    "merged":    "#27ae60",   # region that has just been merged
     "text":      "#c8d8ea",
     "accent":    "#e94560",
     "dim":       "#556070",
@@ -151,11 +151,13 @@ LEGEND_ITEMS = [
 
 
 def _bar_color(i, song, step):
+    """Return (fill_colour, glow_css) for bar i based on what the algorithm is doing this step."""
     lr, rr = step["left_range"], step["right_range"]
     mr = step["merged_range"]
     cids = step["comparing_ids"] or set()
     sid = song["_id"]
 
+    # Priority: comparing > merged > left/right half > idle
     if sid in cids:
         return _PALETTE["comparing"], "0 0 14px #f05a28"
     if mr and mr[0] <= i <= mr[1]:
@@ -172,13 +174,14 @@ def render_step_html(step, key, total, idx):
     if not arr:
         return ""
 
-    max_val = max(s[key] for s in arr) or 1
+    max_val = max(s[key] for s in arr) or 1  # avoid division by zero
     progress_pct = int(idx / max(total - 1, 1) * 100)
 
-    # ── bars ──────────────────────────────────
+    # Build one bar per song; height is proportional to the sort key value
     bars_html = ""
     for i, song in enumerate(arr):
         val = song[key]
+        # minimum 28 px so labels are always visible
         height = max(28, int(val / max_val * 160))
         color, glow = _bar_color(i, song, step)
         glow_css = f"box-shadow:{glow};" if glow else ""
@@ -207,13 +210,11 @@ def render_step_html(step, key, total, idx):
           ">{short}</span>
         </div>"""
 
-    # ── legend ────────────────────────────────
     legend_html = " &nbsp;&nbsp; ".join(
         f'<span style="color:{c}">◼</span> <span style="color:#9ab">{lbl}</span>'
         for c, lbl in LEGEND_ITEMS
     )
 
-    # ── full card ─────────────────────────────
     return f"""
     <div style="
         background:{_PALETTE['panel']};
@@ -221,7 +222,7 @@ def render_step_html(step, key, total, idx):
         border-radius:14px;padding:20px;
         font-family:'Courier New',monospace;
     ">
-      <!-- header row -->
+      <!-- Step label and counter -->
       <div style="display:flex;justify-content:space-between;
                   align-items:center;margin-bottom:14px;">
         <span style="color:{_PALETTE['accent']};font-size:14px;
@@ -233,7 +234,7 @@ def render_step_html(step, key, total, idx):
         </span>
       </div>
 
-      <!-- progress bar -->
+      <!-- Overall progress bar -->
       <div style="background:#111c2e;border-radius:4px;height:5px;margin-bottom:18px;">
         <div style="
             background:linear-gradient(90deg,{_PALETTE['accent']},{_PALETTE['left']});
@@ -242,7 +243,7 @@ def render_step_html(step, key, total, idx):
         "></div>
       </div>
 
-      <!-- bars -->
+      <!-- Bar chart: each song is one bar -->
       <div style="
           display:flex;align-items:flex-end;
           height:210px;padding-bottom:6px;
@@ -251,7 +252,7 @@ def render_step_html(step, key, total, idx):
         {bars_html}
       </div>
 
-      <!-- legend -->
+      <!-- Colour legend -->
       <div style="margin-top:12px;font-size:10px;letter-spacing:.4px;">
         {legend_html}
       </div>
@@ -303,6 +304,7 @@ def render_playlist_table(songs, key):
 #  PLACEHOLDER HTML
 # ─────────────────────────────────────────────
 
+# Shown in the visualiser panel before the user runs a sort
 PLACEHOLDER = f"""
 <div style="
     background:{_PALETTE['panel']};border:1px solid {_PALETTE['border']};
@@ -323,8 +325,11 @@ PLACEHOLDER = f"""
 # ─────────────────────────────────────────────
 
 def do_sort(text, key):
+    """Handle sorting button click."""
     try:
         songs = parse_playlist(text)
+
+        # Require at least 2 songs for sorting
         if len(songs) < 2:
             return (
                 [], 0, key,
@@ -336,6 +341,7 @@ def do_sort(text, key):
         final_html = render_playlist_table(sorted_songs, key)
         return steps, 0, key, "", first_vis, final_html
     except Exception as exc:
+        # Show error in UI instead of crashing
         return (
             [], 0, key,
             f"<span style='color:{_PALETTE['accent']}'>❌ {html_lib.escape(str(exc))}</span>",
@@ -344,6 +350,7 @@ def do_sort(text, key):
 
 
 def go_prev(steps, idx, key):
+    """Move one step backward in the recorded visualisation."""
     if not steps:
         return idx, PLACEHOLDER
     new_idx = max(0, idx - 1)
@@ -351,6 +358,7 @@ def go_prev(steps, idx, key):
 
 
 def go_next(steps, idx, key):
+    """Move one step forward in the recorded visualisation."""
     if not steps:
         return idx, PLACEHOLDER
     new_idx = min(len(steps) - 1, idx + 1)
@@ -433,7 +441,7 @@ with gr.Blocks(theme=gr.themes.Base(), css=CSS) as demo:
                 label="🎛️  Sort By",
             )
             sort_btn = gr.Button("▶  Sort Playlist!", variant="primary")
-            error_box = gr.HTML("")
+            error_box = gr.HTML("")   # displays validation errors inline
 
             gr.HTML(f"""
             <div style="margin-top:14px;padding:12px;
@@ -462,6 +470,7 @@ with gr.Blocks(theme=gr.themes.Base(), css=CSS) as demo:
                 next_btn = gr.Button(
                     "Next Step  ▶", variant="secondary", size="sm")
 
+            # final sorted table appears here after all steps
             sorted_display = gr.HTML("")
 
     # ── wiring ─────────────────────────────────
