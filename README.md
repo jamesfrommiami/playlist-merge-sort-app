@@ -69,7 +69,7 @@ Output → original playlist, sorted playlist, and merge sort steps
 ### Test 2: Empty input
 - Input: no songs entered  
 - Expected: error message or empty output  
-- Result: displayed "No songs entered"
+- Result: displayed "Please enter at least 2 songs."
 
 ![Error Handling](images/error_handling.png)
 
