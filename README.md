@@ -30,15 +30,17 @@ I chose Merge Sort because it is efficient and easy to visualize each step. It w
 
 ### Abstraction
 
-- The app shows comparisons and merged results
-- It does not show unnecessary low-level Python details
 - The focus is on how songs move into order
+- The app shows which parts of the list are being split and merged using colors
+- It highlights comparisons between songs so users can see how decisions are made
+- It shows the final sorted playlist clearly in a table
+- It does not show recursion details or internal Python operations, to keep the visualization simple and easy to understand
 
 ### Algorithm Design
 
-Input → playlist text and sorting key  
-Process → parse data, run merge sort, record steps  
-Output → original playlist, sorted playlist, and merge sort steps
+Input: user enters playlist text and selects a sorting key using the UI 
+Process: the input is parsed into song data, merge sort is applied step by step, and each step is recorded 
+Output: the app displays a step by step animation of the sorting process and the final sorted playlist in a table
 
 ### Flowchart
 
