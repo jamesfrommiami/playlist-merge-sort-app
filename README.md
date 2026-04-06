@@ -61,12 +61,17 @@ Output → original playlist, sorted playlist, and merge sort steps
 ### Test 1: Normal input
 - Input: multiple songs with different energy values  
 - Expected: songs sorted correctly by chosen key  
-- Result: worked as expected  
+- Result: worked as expected
+
+![Main App Demo](images/main_app_demo.png)
+
 
 ### Test 2: Empty input
 - Input: no songs entered  
 - Expected: error message or empty output  
-- Result: displayed "No songs entered"  
+- Result: displayed "No songs entered"
+
+![Error Handling](images/error_handling.png)
 
 ### Test 3: One song
 - Input: single song  
@@ -86,7 +91,15 @@ Output → original playlist, sorted playlist, and merge sort steps
 ### Test 6: Invalid numeric input
 - Input: energy as text instead of number  
 - Expected: error message  
-- Result: error message displayed  
+- Result: error message displayed
+
+### Test 7: Sorting by duration
+
+- Input: multiple songs sorted by duration instead of energy  
+- Expected: songs sorted correctly based on duration values  
+- Result: worked as expected
+
+![Sort by Duration](images/sort_by_duration.png)
 
 ## Author & AI Acknowledgment
 
