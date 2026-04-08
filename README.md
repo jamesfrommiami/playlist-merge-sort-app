@@ -105,6 +105,9 @@ https://huggingface.co/spaces/jmesliu/playlist-merge-sort-app
 
 ![Sort by Duration](images/sort_by_duration.png)
 
+
 ## Author & AI Acknowledgment
 
-(Add your name and AI acknowledgment here)
+Author: James Liu
+
+I used ChatGPT to help generate and refine the code for this project, including the merge sort implementation and visualization logic. I also used ChatGPT to generate ideas, improve the structure and clarity of the README. I reviewed, tested, and modified all code and documentation myself. 
