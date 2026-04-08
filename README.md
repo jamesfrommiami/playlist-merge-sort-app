@@ -10,7 +10,7 @@ I chose Merge Sort because it is efficient and easy to visualize each step. It w
 
 ## Demo
 
-(Add screenshot, gif, or video here)
+![Demo GIF](images/demo.gif)
 
 ## Problem Breakdown & Computational Thinking
 
@@ -32,6 +32,8 @@ I chose Merge Sort because it is efficient and easy to visualize each step. It w
 
 - The focus is on how songs move into order
 - The app shows which parts of the list are being split and merged using colors
+- A progress bar and step counter show how far along the algorithm is
+- Users can move forward and backward through each step using buttons to better understand how the algorithm works
 - It highlights comparisons between songs so users can see how decisions are made
 - It shows the final sorted playlist clearly in a table
 - It does not show recursion details or internal Python operations, to keep the visualization simple and easy to understand
@@ -77,8 +79,8 @@ https://huggingface.co/spaces/jmesliu/playlist-merge-sort-app
 
 ### Test 3: One song
 - Input: single song  
-- Expected: same song returned  
-- Result: worked as expected  
+- Expected: error message (app requires at least 2 songs to perform sorting)
+- Result: displayed "Please enter at least 2 songs." 
 
 ### Test 4: Duplicate values
 - Input: songs with same energy  
