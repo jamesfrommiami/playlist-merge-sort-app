@@ -6,7 +6,32 @@ This app solves the Playlist Vibe Builder problem by sorting songs based on ener
 
 ## Chosen Algorithm
 
-I chose Merge Sort because it is efficient and easy to visualize each step. It works well for sorting a list of songs because the playlist can be split into smaller parts, sorted, and then merged back together.
+I chose **Merge Sort** because it naturally fits a playlist sorting problem.
+This is because the playlist can be split into smaller groups, each group sorted independently,
+and then merged back together in order. This structure also
+makes each step easy to visualise.
+
+**Why it fits:** Songs have numeric values (energy and duration) that can be
+directly compared, which is exactly what merge sort needs. The algorithm makes
+no assumptions about the input being pre-sorted, so it works for any playlist
+the user enters.
+
+**Preconditions the app enforces:**
+- At least 2 songs must be entered, as sorting a single item is meaningless
+- Each line must have exactly 4 values separated with commas: title, artist, energy, duration
+- Energy must be a whole number between 0 and 100
+- Duration must be a positive number
+
+
+**What the user sees during the simulation:**
+- 🔵 Blue bars = the left sub-array currently being worked on
+- 🟣 Purple bars = the right sub-array
+- 🟠 Orange bars = the two songs currently being compared
+- 🟢 Green bars = songs that have been merged into their correct position
+- ⬛ Dark bars = songs not yet reached by the algorithm
+
+The user can move forward and backward through each step using the
+Prev/Next buttons to understand how decisions are made at each stage.
 
 ## Demo
 
@@ -52,13 +77,21 @@ Output: the app displays a step by step animation of the sorting process and the
 
 1. Install Python
 2. Install required library:
+```
    pip install -r requirements.txt
+```
 3. Run:
+```
    python app.py
+```
 
 ## Hugging Face Link
 
 https://huggingface.co/spaces/jmesliu/playlist-merge-sort-app
+
+## GitHub Repository
+
+https://github.com/jamesfrommiami/playlist-merge-sort-app/
 
 ## Testing
 
