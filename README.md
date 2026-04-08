@@ -56,7 +56,7 @@ Output: the app displays a step by step animation of the sorting process and the
 
 ## Hugging Face Link
 
-(Add link here)
+https://huggingface.co/spaces/jmesliu/playlist-merge-sort-app
 
 ## Testing
 
