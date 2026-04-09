@@ -45,7 +45,7 @@ def parse_playlist(text):
 
 
 # ─────────────────────────────────────────────
-#  MERGE SORT  (records every comparison step)
+#  MERGE SORT  
 # ─────────────────────────────────────────────
 
 def merge_sort_record(songs, key):
