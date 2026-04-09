@@ -115,20 +115,28 @@ https://github.com/jamesfrommiami/playlist-merge-sort-app/
 - Expected: error message (app requires at least 2 songs to perform sorting)
 - Result: displayed "Please enter at least 2 songs." 
 
+![One Song Only](images/one_song_only.png)
+
 ### Test 4: Duplicate values
 - Input: songs with same energy  
 - Expected: sorted correctly, duplicates handled  
-- Result: worked as expected  
+- Result: worked as expected
+
+![Duplicate Values](images/duplicate_values.png)
 
 ### Test 5: Invalid format
 - Input: missing values in a line  
 - Expected: error message  
-- Result: error message displayed  
+- Result: error message displayed
+
+![Invalid Format](images/invalid_format.png)
 
 ### Test 6: Invalid numeric input
 - Input: energy as text instead of number  
 - Expected: error message  
 - Result: error message displayed
+
+![Invalid Numeric Input](images/invalid_numeric_input.png)
 
 ### Test 7: Sorting by duration
 
